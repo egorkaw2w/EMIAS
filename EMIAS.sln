@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMIAS", "EMIAS.csproj", "{7B5BB9F2-286F-4DC9-AF93-0960CF2FC961}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B5BB9F2-286F-4DC9-AF93-0960CF2FC961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B5BB9F2-286F-4DC9-AF93-0960CF2FC961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B5BB9F2-286F-4DC9-AF93-0960CF2FC961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B5BB9F2-286F-4DC9-AF93-0960CF2FC961}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC30F406-A00A-4123-965C-10451EC86E1D}
+	EndGlobalSection
+EndGlobal
