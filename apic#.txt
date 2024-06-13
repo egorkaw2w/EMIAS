@@ -1,0 +1,1131 @@
+// Models/Speciality.cs
+namespace YourNamespace.Models
+{
+    public class Speciality
+    {
+        public int IdSpeciality { get; set; }
+        public string Name { get; set; }
+    }
+}
+
+// Models/Status.cs
+namespace YourNamespace.Models
+{
+    public class Status
+    {
+        public int IdStatus { get; set; }
+        public string Name { get; set; }
+    }
+}
+----------------------------------------------------------
+// Models/Patient.cs
+using System.ComponentModel.DataAnnotations;
+
+namespace YourNamespace.Models
+{
+    public class Patient
+    {
+        [Key]
+        public long OMS { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Surname { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        [MaxLength(50)]
+        public string Patronymic { get; set; }
+
+        [Required]
+        public DateTime BirthDate { get; set; }
+
+        [MaxLength(200)]
+        public string Address { get; set; }
+
+        [MaxLength(200)]
+        public string LivingAddress { get; set; }
+
+        [Phone]
+        public string Phone { get; set; }
+
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [MaxLength(50)]
+        public string Nickname { get; set; }
+    }
+}
+-----------------------------------------------------------
+// Models/Doctor.cs
+namespace YourNamespace.Models
+{
+    public class Doctor
+    {
+        public int IdDoctor { get; set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string Patronymic { get; set; }
+        public int IdSpeciality { get; set; }
+        public string EnterPassword { get; set; }
+        public string WorkAddress { get; set; }
+    }
+}
+-----------------------------------------------------------
+// Models/Direction.cs
+namespace YourNamespace.Models
+{
+    public class Direction
+    {
+        public int IdDirection { get; set; }
+        public int IdSpeciality { get; set; }
+        public long OMS { get; set; }
+    }
+}
+-----------------------------------------------------------
+// Models/Appointment.cs
+namespace YourNamespace.Models
+{
+    public class Appointment
+    {
+        public int IdAppointment { get; set; }
+        public long OMS { get; set; }
+        public int IdDoctor { get; set; }
+        public DateTime AppointmentDate { get; set; }
+        public TimeSpan AppointmentTime { get; set; }
+        public int IdStatus { get; set; }
+    }
+}
+-----------------------------------------------------------
+// Models/AppointmentDocument.cs
+namespace YourNamespace.Models
+{
+    public class AppointmentDocument
+    {
+        public int IdAppointment { get; set; }
+        public string Rtf { get; set; }
+    }
+}
+-----------------------------------------------------------
+// Models/AnalysDocument.cs
+namespace YourNamespace.Models
+{
+    public class AnalysDocument
+    {
+        public int IdAppointment { get; set; }
+        public string Rtf { get; set; }
+    }
+}
+-----------------------------------------------------------
+// Models/ResearchDocument.cs
+namespace YourNamespace.Models
+{
+    public class ResearchDocument
+    {
+        public int IdAppointment { get; set; }
+        public string Rtf { get; set; }
+        public byte[] Attachment { get; set; }
+    }
+}
+-----------------------------------------------------------
+// Models/Admin.cs
+namespace YourNamespace.Models
+{
+    public class Admin
+    {
+        public int IdAdmin { get; set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string Patronymic { get; set; }
+        public string EnterPassword { get; set; }
+    }
+}
+-----------------------------------------------------------
+// Data/EMiasContext.cs
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Models;
+
+namespace YourNamespace.Data
+{
+    public class EMiasContext : DbContext
+    {
+        public EMiasContext(DbContextOptions<EMiasContext> options) : base(options) { }
+
+        public DbSet<Speciality> Specialities { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Direction> Directions { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppointmentDocument> AppointmentDocuments { get; set; }
+        public DbSet<AnalysDocument> AnalysDocuments { get; set; }
+        public DbSet<ResearchDocument> ResearchDocuments { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+    }
+}
+-----------------------------------------------------------
+// Startup.cs
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using Microsoft.OpenApi.Models;
+
+namespace YourNamespace
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDbContext<EMiasContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("EMiasDB")));
+
+            services.AddControllers();
+
+            // Add Swagger for API documentation
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EMias API", Version = "v1" });
+            });
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EMias API v1"));
+            }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
+    }
+}
+-----------------------------------------------------------
+// Controllers/SpecialitiesController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class SpecialitiesController : ControllerBase
+    {
+        private readonly EMiasContext _context;
+
+        public SpecialitiesController(EMiasContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Speciality>>> GetSpecialities()
+        {
+            return await _context.Specialities.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Speciality>> GetSpeciality(int id)
+        {
+            var speciality = await _context.Specialities.FindAsync(id);
+
+            if (speciality == null)
+            {
+                return NotFound();
+            }
+
+            return speciality;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutSpeciality(int id, Speciality speciality)
+        {
+            if (id != speciality.IdSpeciality)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(speciality).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SpecialityExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Speciality>> PostSpeciality(Speciality speciality)
+        {
+            _context.Specialities.Add(speciality);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetSpeciality), new { id = speciality.IdSpeciality }, speciality);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSpeciality(int id)
+        {
+            var speciality = await _context.Specialities.FindAsync(id);
+            if (speciality == null)
+            {
+                return NotFound();
+            }
+
+            _context.Specialities.Remove(speciality);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool SpecialityExists(int id)
+        {
+            return _context.Specialities.Any(e => e.IdSpeciality == id);
+        }
+    }
+}
+-----------------------------------------------------------
+// Controllers/StatusesController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class StatusesController : ControllerBase
+    {
+        private readonly EMiasContext _context;
+
+        public StatusesController(EMiasContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Status>>> GetStatuses()
+        {
+            return await _context.Statuses.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Status>> GetStatus(int id)
+        {
+            var status = await _context.Statuses.FindAsync(id);
+
+            if (status == null)
+            {
+                return NotFound();
+            }
+
+            return status;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutStatus(int id, Status status)
+        {
+            if (id != status.IdStatus)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(status).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StatusExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Status>> PostStatus(Status status)
+        {
+            _context.Statuses.Add(status);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetStatus), new { id = status.IdStatus }, status);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteStatus(int id)
+        {
+            var status = await _context.Statuses.FindAsync(id);
+            if (status == null)
+            {
+                return NotFound();
+            }
+
+            _context.Statuses.Remove(status);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool StatusExists(int id)
+        {
+            return _context.Statuses.Any(e => e.IdStatus == id);
+        }
+    }
+}
+-----------------------------------------------------------
+// Controllers/DoctorsController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DoctorsController : ControllerBase
+    {
+        private readonly EMiasContext _context;
+
+        public DoctorsController(EMiasContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctors()
+        {
+            return await _context.Doctors.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Doctor>> GetDoctor(int id)
+        {
+            var doctor = await _context.Doctors.FindAsync(id);
+
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+
+            return doctor;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutDoctor(int id, Doctor doctor)
+        {
+            if (id != doctor.IdDoctor)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(doctor).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DoctorExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Doctor>> PostDoctor(Doctor doctor)
+        {
+            _context.Doctors.Add(doctor);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetDoctor), new { id = doctor.IdDoctor }, doctor);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDoctor(int id)
+        {
+            var doctor = await _context.Doctors.FindAsync(id);
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+
+            _context.Doctors.Remove(doctor);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool DoctorExists(int id)
+        {
+            return _context.Doctors.Any(e => e.IdDoctor == id);
+        }
+    }
+}
+-----------------------------------------------------------
+// Controllers/DirectionsController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DirectionsController : ControllerBase
+    {
+        private readonly EMiasContext _context;
+
+        public DirectionsController(EMiasContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Direction>>> GetDirections()
+        {
+            return await _context.Directions.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Direction>> GetDirection(int id)
+        {
+            var direction = await _context.Directions.FindAsync(id);
+
+            if (direction == null)
+            {
+                return NotFound();
+            }
+
+            return direction;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutDirection(int id, Direction direction)
+        {
+            if (id != direction.IdDirection)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(direction).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!DirectionExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Direction>> PostDirection(Direction direction)
+        {
+            _context.Directions.Add(direction);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetDirection), new { id = direction.IdDirection }, direction);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDirection(int id)
+        {
+            var direction = await _context.Directions.FindAsync(id);
+            if (direction == null)
+            {
+                return NotFound();
+            }
+
+            _context.Directions.Remove(direction);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool DirectionExists(int id)
+        {
+            return _context.Directions.Any(e => e.IdDirection == id);
+        }
+    }
+}
+-----------------------------------------------------------
+// Controllers/AppointmentsController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AppointmentsController : ControllerBase
+    {
+        private readonly EMiasContext _context;
+
+        public AppointmentsController(EMiasContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointments()
+        {
+            return await _context.Appointments.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Appointment>> GetAppointment(int id)
+        {
+            var appointment = await _context.Appointments.FindAsync(id);
+
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            return appointment;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAppointment(int id, Appointment appointment)
+        {
+            if (id != appointment.IdAppointment)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(appointment).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AppointmentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
+        {
+            _context.Appointments.Add(appointment);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAppointment), new { id = appointment.IdAppointment }, appointment);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAppointment(int id)
+        {
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            _context.Appointments.Remove(appointment);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool AppointmentExists(int id)
+        {
+            return _context.Appointments.Any(e => e.IdAppointment == id);
+        }
+    }
+}
+-----------------------------------------------------------
+// Controllers/AppointmentDocumentsController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AppointmentDocumentsController : ControllerBase
+    {
+        private readonly EMiasContext _context;
+
+        public AppointmentDocumentsController(EMiasContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AppointmentDocument>>> GetAppointmentDocuments()
+        {
+            return await _context.AppointmentDocuments.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AppointmentDocument>> GetAppointmentDocument(int id)
+        {
+            var appointmentDocument = await _context.AppointmentDocuments.FindAsync(id);
+
+            if (appointmentDocument == null)
+            {
+                return NotFound();
+            }
+
+            return appointmentDocument;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAppointmentDocument(int id, AppointmentDocument appointmentDocument)
+        {
+            if (id != appointmentDocument.IdAppointment)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(appointmentDocument).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AppointmentDocumentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<AppointmentDocument>> PostAppointmentDocument(AppointmentDocument appointmentDocument)
+        {
+            _context.AppointmentDocuments.Add(appointmentDocument);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAppointmentDocument), new { id = appointmentDocument.IdAppointment }, appointmentDocument);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAppointmentDocument(int id)
+        {
+            var appointmentDocument = await _context.AppointmentDocuments.FindAsync(id);
+            if (appointmentDocument == null)
+            {
+                return NotFound();
+            }
+
+            _context.AppointmentDocuments.Remove(appointmentDocument);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool AppointmentDocumentExists(int id)
+        {
+            return _context.AppointmentDocuments.Any(e => e.IdAppointment == id);
+        }
+    }
+}
+-----------------------------------------------------------
+// Controllers/AnalysDocumentsController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AnalysDocumentsController : ControllerBase
+    {
+        private readonly EMiasContext _context;
+
+        public AnalysDocumentsController(EMiasContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AnalysDocument>>> GetAnalysDocuments()
+        {
+            return await _context.AnalysDocuments.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AnalysDocument>> GetAnalysDocument(int id)
+        {
+            var analysDocument = await _context.AnalysDocuments.FindAsync(id);
+
+            if (analysDocument == null)
+            {
+                return NotFound();
+            }
+
+            return analysDocument;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAnalysDocument(int id, AnalysDocument analysDocument)
+        {
+            if (id != analysDocument.IdAppointment)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(analysDocument).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AnalysDocumentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<AnalysDocument>> PostAnalysDocument(AnalysDocument analysDocument)
+        {
+            _context.AnalysDocuments.Add(analysDocument);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAnalysDocument), new { id = analysDocument.IdAppointment }, analysDocument);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAnalysDocument(int id)
+        {
+            var analysDocument = await _context.AnalysDocuments.FindAsync(id);
+            if (analysDocument == null)
+            {
+                return NotFound();
+            }
+
+            _context.AnalysDocuments.Remove(analysDocument);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool AnalysDocumentExists(int id)
+        {
+            return _context.AnalysDocuments.Any(e => e.IdAppointment == id);
+        }
+    }
+}
+-----------------------------------------------------------
+// Controllers/ResearchDocumentsController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ResearchDocumentsController : ControllerBase
+    {
+        private readonly EMiasContext _context;
+
+        public ResearchDocumentsController(EMiasContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ResearchDocument>>> GetResearchDocuments()
+        {
+            return await _context.ResearchDocuments.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ResearchDocument>> GetResearchDocument(int id)
+        {
+            var researchDocument = await _context.ResearchDocuments.FindAsync(id);
+
+            if (researchDocument == null)
+            {
+                return NotFound();
+            }
+
+            return researchDocument;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutResearchDocument(int id, ResearchDocument researchDocument)
+        {
+            if (id != researchDocument.IdAppointment)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(researchDocument).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ResearchDocumentExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ResearchDocument>> PostResearchDocument(ResearchDocument researchDocument)
+        {
+            _context.ResearchDocuments.Add(researchDocument);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetResearchDocument), new { id = researchDocument.IdAppointment }, researchDocument);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteResearchDocument(int id)
+        {
+            var researchDocument = await _context.ResearchDocuments.FindAsync(id);
+            if (researchDocument == null)
+            {
+                return NotFound();
+            }
+
+            _context.ResearchDocuments.Remove(researchDocument);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool ResearchDocumentExists(int id)
+        {
+            return _context.ResearchDocuments.Any(e => e.IdAppointment == id);
+        }
+    }
+}
+-----------------------------------------------------------
+// Controllers/AdminsController.cs
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace YourNamespace.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AdminsController : ControllerBase
+    {
+        private readonly EMiasContext _context;
+
+        public AdminsController(EMiasContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Admin>>> GetAdmins()
+        {
+            return await _context.Admins.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Admin>> GetAdmin(int id)
+        {
+            var admin = await _context.Admins.FindAsync(id);
+
+            if (admin == null)
+            {
+                return NotFound();
+            }
+
+            return admin;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAdmin(int id, Admin admin)
+        {
+            if (id != admin.IdAdmin)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(admin).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AdminExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Admin>> PostAdmin(Admin admin)
+        {
+            _context.Admins.Add(admin);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAdmin), new { id = admin.IdAdmin }, admin);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAdmin(int id)
+        {
+            var admin = await _context.Admins.FindAsync(id);
+            if (admin == null)
+            {
+                return NotFound();
+            }
+
+            _context.Admins.Remove(admin);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool AdminExists(int id)
+        {
+            return _context.Admins.Any(e => e.IdAdmin == id);
+        }
+    }
+}
