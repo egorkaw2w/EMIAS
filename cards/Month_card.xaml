@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="EMIAS.Month_card"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cards ="clr-namespace:EMIAS.cards"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EMIAS"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="370">
+    <Grid Background="#EDEDED">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Май 2024"></TextBlock>
+        <WrapPanel Grid.Row="1">
+       <!--  <cards:Doctor_card></cards:Doctor_card> -->
+        </WrapPanel>
+    </Grid>
+</UserControl>

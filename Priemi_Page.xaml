@@ -1,0 +1,50 @@
+﻿<Page x:Class="EMIAS.Priemi_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EMIAS"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Priemi_Page">
+
+    <Grid Background="White">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="1.7*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Приёмы" Grid.ColumnSpan="2" FontSize="20px" VerticalAlignment="Center" ></TextBlock>
+            <Grid Grid.Row="1" Background="#EDEDED">
+                <WrapPanel Margin="10"></WrapPanel>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.4*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Осмотр травматолога-ортопеда" Grid.ColumnSpan="2" FontSize="20px"></TextBlock>
+                    <TextBlock Text="Врач: " Grid.Row="1" Grid.Column="0" FontSize="16px"></TextBlock>
+                    <TextBlock Text="Сударева Е.Ю. " Grid.Row="2" Grid.Column="0" FontSize="16px"></TextBlock>
+                    <TextBlock Text="Москва, Каширское ш. д. 62" Grid.Row="1" Grid.Column="1" FontSize="16px"></TextBlock>
+                    <TextBlock Text="12 декабря 2022 г." Grid.Row="2" Grid.Column="2" FontSize="16px"></TextBlock>
+                </Grid>
+                <RichTextBox Grid.Row="1"></RichTextBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

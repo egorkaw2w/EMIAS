@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,17 +16,15 @@ using System.Windows.Shapes;
 namespace EMIAS
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для UserPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class UserPage : Page
     {
-        public MainWindow()
+        public UserPage()
         {
             InitializeComponent();
-
-            Content_menu.Content = new Profile_User();
         }
 
-        
+
     }
 }
