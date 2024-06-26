@@ -50,8 +50,8 @@
                             <RowDefinition Height="1.6*"></RowDefinition>
                             <RowDefinition Height="1.6*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" FontWeight="Medium" Text="7777 000 000 000"></TextBlock>
-                        <TextBlock TextWrapping="Wrap" FontSize="20" FontWeight="Medium" Text="Иванова Ирина Ивановна" Grid.Column="1"></TextBlock>
+                        <TextBlock x:Name="PatientOms" FontSize="20" FontWeight="Medium" />
+                        <TextBlock x:Name="PatientName" TextWrapping="Wrap" FontSize="20" FontWeight="Medium" Grid.Column="1" />
                         <Grid Grid.Row="1" Grid.Column="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -66,7 +66,7 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <TextBlock FontSize="16" Foreground="#807F7F" Text="Дата рождения"></TextBlock>
-                            <TextBlock FontSize="20" FontWeight="Medium" Text="01.01.2000" Grid.Row="1"></TextBlock>
+                            <TextBlock x:Name="PatientBirthDate" FontSize="20" FontWeight="Medium" Grid.Row="1" />
                         </Grid>
                         <TextBlock Grid.Row="3" Grid.ColumnSpan="2" FontSize="16px" Text="Выдан: АКЦИОНЕРНОЕ ОБЩЕСТВО  'СТРАХОВАЯ КОМПАНИЯ 'СОГАЗ-МЕД'" TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" MaxWidth="400" Foreground="#807f7F" VerticalAlignment="Center"></TextBlock>
                     </Grid>

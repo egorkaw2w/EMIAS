@@ -1,9 +1,9 @@
-﻿<Window x:Class="EMIAS.MainWindow"
+﻿<Window x:Class="PRAK10.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EMIAS"
+        xmlns:local="clr-namespace:PRAK10"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -27,16 +27,16 @@
                 <TextBlock Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White" >ЕМИАС</TextBlock>
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White">в. 1.0</TextBlock>
             </Grid>
-            <TreeView x:Name="List_Main" Background="blue"  Grid.Row="2">
+            <TreeView x:Name="List_Main" Background="blue"  Grid.Row="2" SelectedItemChanged="List_Main_SelectedItemChanged">
                 <TreeViewItem Header="Главная" Foreground="White">
                     <TextBlock Foreground="White">Записи и направления</TextBlock>
                     <TextBlock Foreground="White">Рецепты</TextBlock>
                     <TextBlock>Диспансеризация</TextBlock>
                 </TreeViewItem>
                 <TreeViewItem Foreground="White" Header="Медкарта">
-                    <TextBlock Foreground="White">Приёмы</TextBlock>
-                    <TextBlock Foreground="White">Анализы</TextBlock>
-                    <TextBlock Foreground="White">Исследования</TextBlock>
+                    <TreeViewItem Header="Приёмы" Foreground="White"></TreeViewItem>
+                    <TreeViewItem Header="Анализы" Foreground="White"></TreeViewItem>
+                    <TreeViewItem Header="Исследования" Foreground="White"></TreeViewItem>
                 </TreeViewItem>
             </TreeView>
             <Grid Grid.Row="5" >
@@ -54,7 +54,7 @@
 
         </Grid>
         <Grid Grid.Column="1">
-            <Frame x:Name="Content_menu"></Frame>
+            <Frame x:Name="Content_menu" NavigationUIVisibility="Hidden"></Frame>
         </Grid>
     </Grid>
 </Window>
