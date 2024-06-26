@@ -1,0 +1,15 @@
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\bin\Debug\net8.0-windows\ThemeLibrary2.deps.json
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\bin\Debug\net8.0-windows\ThemeLibrary2.dll
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\bin\Debug\net8.0-windows\ThemeLibrary2.pdb
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\Themes\DarkTheme.baml
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\Themes\LightTheme.baml
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\ThemeLibrary2_MarkupCompile.cache
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\ThemeLibrary2.g.resources
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\ThemeLibrary2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\ThemeLibrary2.AssemblyInfoInputs.cache
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\ThemeLibrary2.AssemblyInfo.cs
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\ThemeLibrary2.csproj.CoreCompileInputs.cache
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\ThemeLibrary2.dll
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\refint\ThemeLibrary2.dll
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\ThemeLibrary2.pdb
+C:\Users\Админ\source\repos\PRAK10\ThemeLibrary2\obj\Debug\net8.0-windows\ref\ThemeLibrary2.dll

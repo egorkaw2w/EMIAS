@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Analize_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="appointmentPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="choosing_specialist.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CRUDadmin.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CRUDpacient.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="CRUDvrach.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="RegisterVrach.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Analize_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="appointmentPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="choosing_specialist.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CRUDadmin.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CRUDpacient.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="CRUDvrach.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="RegisterPacient.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="RegisterVrach.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
