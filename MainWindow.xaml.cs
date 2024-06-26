@@ -1,28 +1,34 @@
-﻿using System.Text;
+﻿using EMIAS;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace EMIAS
+namespace PRAK10
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-
             Content_menu.Content = new Profile_User();
         }
 
-        
+        private void List_Main_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (e.NewValue is TreeViewItem selectedItem)
+            {
+                switch (selectedItem.Header)
+                {
+                    case "Приёмы":
+                        Content_menu.Content = new Priemi_Page();
+                        break;
+                    case "Исследования":
+                        Content_menu.Content = new Research_Page();
+                        break;
+                    default:
+                        Content_menu.Content = new Profile_User();
+                        break;
+                }
+            }
+        }
     }
 }

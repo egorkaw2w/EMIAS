@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EMIAS"
+      xmlns:cards="clr-namespace:EMIAS.cards"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="UserPage">
@@ -19,8 +20,20 @@
                 <RowDefinition Height="0.1*"></RowDefinition>
                 <RowDefinition Height="0.2*"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBlock>Запись</TextBlock>
+            <TextBlock Text="Запись"></TextBlock>
             <Grid Grid.Row="1" Background="LightGray" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <ItemsControl x:Name="DoctorsList">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <cards:Doctor_view_card />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
             <Grid Grid.Row="2" Margin="5" HorizontalAlignment="Left"  MaxWidth="300">
                 <Grid.ColumnDefinitions>
@@ -28,28 +41,49 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-            <TextBlock>Действующуие записи</TextBlock>
-                <DatePicker Grid.Column="1" ></DatePicker>  <!--TODO: как только подключим material Design вставить сюда Hints -->
-                 <DatePicker Grid.Column="2" ></DatePicker> <!--TODO: как только подключим material Design вставить сюда Hints -->
+                <TextBlock Text="Действующие записи"></TextBlock>
+                <DatePicker Grid.Column="1" ></DatePicker>
+                <DatePicker Grid.Column="2" ></DatePicker>
             </Grid>
             <Grid Grid.Row="3" Background="LightGray" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <ItemsControl x:Name="ActiveAppointmentsList">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <cards:Date_Card />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
-
             <Grid Grid.Row="4" Margin="5"  HorizontalAlignment="Left"  MaxWidth="300">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock> Архивные записи</TextBlock>
+                <TextBlock Text="Архивные записи"></TextBlock>
                 <DatePicker Grid.Column="1" ></DatePicker>
-                <!--TODO: как только подключим material Design вставить сюда Hints -->
                 <DatePicker Grid.Column="2" ></DatePicker>
-                <!--TODO: как только подключим material Design вставить сюда Hints -->
             </Grid>
             <Grid Grid.Row="5" Background="LightGray" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <ItemsControl x:Name="ArchivedAppointmentsList">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <cards:Date_Card />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
-            <Button Grid.Row="7" Background="blue" Foreground="White">Записаться на приём</Button>
+            <Button Grid.Row="7" Background="Blue" Foreground="White">Записаться на приём</Button>
         </Grid>
     </Grid>
 </Page>
