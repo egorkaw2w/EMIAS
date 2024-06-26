@@ -1,0 +1,6 @@
+@API_EMIAC_HostAddress = http://localhost:5251
+
+GET {{API_EMIAC_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
