@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PRAK10
+namespace EMIAS
 {
     /// <summary>
     /// Логика взаимодействия для Analize_Page.xaml

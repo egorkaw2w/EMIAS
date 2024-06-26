@@ -2,11 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace PRAK10
+namespace EMIAS
 {
     public partial class MainWindow : Window
     {
-        public MainWindow(Patient patient)
+        public MainWindow()
         {
             InitializeComponent();
             Content_menu.Content = new Profile_User();
@@ -18,11 +18,17 @@ namespace PRAK10
             {
                 switch (selectedItem.Header)
                 {
+                    case "Записи и направления":
+                        Content_menu.Content = new appointmentPage();
+                        break;
                     case "Приёмы":
                         Content_menu.Content = new Priemi_Page();
                         break;
                     case "Исследования":
                         Content_menu.Content = new Research_Page();
+                        break;
+                    case "Анализы":
+                        Content_menu.Content = new Analize_Page();
                         break;
                     default:
                         Content_menu.Content = new Profile_User();

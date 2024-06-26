@@ -1,4 +1,4 @@
-﻿<Window x:Class="PRAK10.MainWindow"
+﻿<Window x:Class="EMIAS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -29,9 +29,9 @@
             </Grid>
             <TreeView x:Name="List_Main" Background="blue"  Grid.Row="2" SelectedItemChanged="List_Main_SelectedItemChanged">
                 <TreeViewItem Header="Главная" Foreground="White">
-                    <TextBlock Foreground="White">Записи и направления</TextBlock>
-                    <TextBlock Foreground="White">Рецепты</TextBlock>
-                    <TextBlock>Диспансеризация</TextBlock>
+                    <TreeViewItem Header="Записи и направления" Foreground="White"></TreeViewItem>
+                    <TreeViewItem Header="Рецепты" Foreground="White"></TreeViewItem>
+                    <TreeViewItem Header="Диспансеризация" Foreground="White"></TreeViewItem>
                 </TreeViewItem>
                 <TreeViewItem Foreground="White" Header="Медкарта">
                     <TreeViewItem Header="Приёмы" Foreground="White"></TreeViewItem>
